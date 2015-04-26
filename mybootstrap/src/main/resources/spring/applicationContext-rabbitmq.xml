@@ -1,0 +1,37 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+	xsi:schemaLocation="http://www.springframework.org/schema/rabbit
+	http://www.springframework.org/schema/rabbit/spring-rabbit-1.4.xsd
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-4.1.xsd">
+
+	<!-- 定义RabbitMQ的连接工厂 -->
+	<rabbit:connection-factory id="connectionFactory"
+		host="${rabbit.host}" port="${rabbit.port}" username="${rabbit.username}"
+		password="${rabbit.passwd}" virtual-host="${rabbit.vhost}" />
+
+	<!-- 管理,队列.交换机 -->
+	<rabbit:admin connection-factory="connectionFactory" />
+
+	<!-- queue 队列声明 -->
+	<rabbit:queue id="myqueue" durable="true" auto-delete="false"
+		exclusive="false" name="myqueue" />
+
+
+	<!-- exchange queue key binging  绑定 -->
+	<rabbit:direct-exchange name="my-mq-exchange"
+		durable="true" auto-delete="false" id="my-mq-exchange">
+		<rabbit:bindings>
+			<rabbit:binding queue="myqueue" key="update" />
+		</rabbit:bindings>
+	</rabbit:direct-exchange>
+	
+
+	<!-- spring template声明 -->
+	<rabbit:template exchange="my-mq-exchange" id="amqpTemplate"
+		connection-factory="connectionFactory"  />
+
+
+
+
+</beans>

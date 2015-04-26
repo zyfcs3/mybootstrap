@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zhuyafeng.mybootstrap.mapper.manage.ItemCatMapper">
+	
+	<select id="queryItemCatParent" resultType="ItemCat">
+		SELECT * FROM tb_item_cat WHERE parent_id = '0'
+	</select>
+	<select id="queryItemCatChild" resultType="ItemCat">
+		SELECT * FROM tb_item_cat WHERE parent_id = #{pid}
+	</select>
+	<select id="queryItemCatAll" resultType="ItemCat">
+		SELECT * FROM tb_item_cat
+	</select>
+	
+	<select id="queryItemCatById" resultType="ItemCat">
+		SELECT * FROM tb_item_cat WHERE parent_id = #{pid}
+	</select>
+	
+</mapper>
